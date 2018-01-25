@@ -39,6 +39,8 @@ class Request(models.Model):
     referer = models.URLField(_('referer'), max_length=255, blank=True, null=True)
     user_agent = models.CharField(_('user agent'), max_length=255, blank=True, null=True)
     language = models.CharField(_('language'), max_length=255, blank=True, null=True)
+    args = models.CharField(_('args'), max_length=1023, blank=True, null=True)
+    request_id = models.CharField(_('request_id'), max_length=63, blank=True, null=True)
 
     objects = RequestManager()
 
@@ -49,7 +51,7 @@ class Request(models.Model):
         ordering = ('-time',)
 
     def __str__(self):
-        return '[{0}] {1} {2} {3}'.format(self.time, self.method, self.path, self.response)
+        return '[{0}] {1} {2} {3}'.format(self.time, self.method, self.path, self.response, self.args)
 
     def get_user(self):
         return get_user_model().objects.get(pk=self.user_id)
@@ -61,6 +63,9 @@ class Request(models.Model):
 
         self.is_secure = request.is_secure()
         self.is_ajax = request.is_ajax()
+
+        self.args = str(request.GET.dict())[:1023]
+        self.request_id = request.META.get('HTTP_X_REQUEST_ID', '')
 
         # User infomation
         self.ip = request.META.get('REMOTE_ADDR', '')
