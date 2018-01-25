@@ -40,6 +40,7 @@ class Request(models.Model):
     user_agent = models.CharField(_('user agent'), max_length=255, blank=True, null=True)
     language = models.CharField(_('language'), max_length=255, blank=True, null=True)
     args = models.CharField(_('args'), max_length=1023, blank=True, null=True)
+    data = models.CharField(_('data'), max_length=1023, blank=True, null=True)
     request_id = models.CharField(_('request_id'), max_length=63, blank=True, null=True)
 
     objects = RequestManager()
@@ -65,6 +66,7 @@ class Request(models.Model):
         self.is_ajax = request.is_ajax()
 
         self.args = str(request.GET.dict())[:1023]
+        self.data = str(request.POST.dict())[:1023]
         self.request_id = request.META.get('HTTP_X_REQUEST_ID', '')
 
         # User infomation
