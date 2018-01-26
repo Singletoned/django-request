@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
+from django import forms
 
 from .models import Request
 from .plugins import plugins
@@ -30,6 +31,12 @@ class RequestAdmin(admin.ModelAdmin):
     )
     raw_id_fields = ('user',)
     readonly_fields = ('time',)
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super(RequestAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in {'args', 'data'}:
+            formfield.widget = forms.Textarea(attrs=formfield.widget.attrs)
+        return formfield
 
     def get_queryset(self, request):
         return super(RequestAdmin, self).get_queryset(request).select_related('user')
