@@ -20,7 +20,7 @@ class RequestAdmin(admin.ModelAdmin):
     list_display = ('time', 'path', 'response', 'method', 'request_from')
     fieldsets = (
         (_('Request'), {
-            'fields': ('method', 'path', 'time', 'is_secure', 'is_ajax', 'args', 'data', 'request_id')
+            'fields': ('method', 'path', 'time', 'is_secure', 'is_ajax', 'args', 'data', 'json', 'request_id')
         }),
         (_('Response'), {
             'fields': ('response',)
