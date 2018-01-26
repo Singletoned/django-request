@@ -65,7 +65,12 @@ class Request(models.Model):
         self.is_secure = request.is_secure()
         self.is_ajax = request.is_ajax()
 
-        data = request.body.decode("utf-8").replace("\\n", "\n")
+        if request.path.startswith("/graphql"):
+            data = request.body.decode("utf-8").replace("\\n", "\n")
+        elif request.path.startswith("/rest"):
+            data = request.POST
+        else:
+            data = ""
 
         self.args = str(request.GET.dict())[:1023]
         self.data = str(data)[:1023]
