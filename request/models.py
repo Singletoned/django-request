@@ -69,7 +69,8 @@ class Request(models.Model):
         if request.META.get('CONTENT_TYPE') == "application/json":
             json = request.body.decode("utf-8").replace("\\n", "\n")
         else:
-            json = ""
+            # json = ""
+            json = request.body.decode("utf-8").replace("\\n", "\n")
 
         self.args = str(request.GET.dict())[:1023]
         self.data = str(request.POST.dict())[:1023]
