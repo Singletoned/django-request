@@ -73,7 +73,7 @@ class Request(models.Model):
 
         self.args = str(request.GET.dict())[:1023]
         self.data = str(request.POST.dict())[:1023]
-        self.data = str(json)[:1023]
+        self.json = str(json)[:1023]
         self.request_id = request.META.get('HTTP_X_REQUEST_ID', '')
 
         # User infomation
