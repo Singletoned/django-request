@@ -31,10 +31,11 @@ class RequestAdmin(admin.ModelAdmin):
     )
     raw_id_fields = ('user',)
     readonly_fields = ('time',)
+    textarea_fields = ('args', 'data', 'json')
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(RequestAdmin, self).formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name in {'args', 'data'}:
+        if db_field.name in self.textarea_fields:
             formfield.widget = forms.Textarea(attrs=formfield.widget.attrs)
         return formfield
 
