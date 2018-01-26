@@ -68,7 +68,7 @@ class Request(models.Model):
         if request.path.startswith("/graphql"):
             data = request.body.decode("utf-8").replace("\\n", "\n")
         elif request.path.startswith("/rest"):
-            data = request.POST
+            data = str(request.POST.dict())
         else:
             data = ""
 
