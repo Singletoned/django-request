@@ -41,7 +41,6 @@ class Request(models.Model):
     language = models.CharField(_('language'), max_length=255, blank=True, null=True)
     args = models.CharField(_('args'), max_length=1023, blank=True, null=True)
     data = models.CharField(_('data'), max_length=1023, blank=True, null=True)
-    json = models.CharField(_('json'), max_length=1023, blank=True, null=True)
     request_id = models.CharField(_('request_id'), max_length=63, blank=True, null=True)
 
     objects = RequestManager()
@@ -66,15 +65,10 @@ class Request(models.Model):
         self.is_secure = request.is_secure()
         self.is_ajax = request.is_ajax()
 
-        if request.META.get('CONTENT_TYPE') == "application/json":
-            json = request.body.decode("utf-8").replace("\\n", "\n")
-        else:
-            # json = ""
-            json = request.body.decode("utf-8").replace("\\n", "\n")
+        data = request.body.decode("utf-8").replace("\\n", "\n")
 
         self.args = str(request.GET.dict())[:1023]
-        self.data = str(request.POST.dict())[:1023]
-        self.json = str(json)[:1023]
+        self.data = str(data)[:1023]
         self.request_id = request.META.get('HTTP_X_REQUEST_ID', '')
 
         # User infomation

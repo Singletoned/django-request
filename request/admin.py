@@ -20,7 +20,7 @@ class RequestAdmin(admin.ModelAdmin):
     list_display = ('time', 'path', 'response', 'method', 'request_from')
     fieldsets = (
         (_('Request'), {
-            'fields': ('method', 'path', 'time', 'is_secure', 'is_ajax', 'args', 'data', 'json', 'request_id')
+            'fields': ('method', 'path', 'time', 'is_secure', 'is_ajax', 'args', 'data', 'request_id')
         }),
         (_('Response'), {
             'fields': ('response',)
@@ -31,7 +31,7 @@ class RequestAdmin(admin.ModelAdmin):
     )
     raw_id_fields = ('user',)
     readonly_fields = ('time',)
-    textarea_fields = ('args', 'data', 'json')
+    textarea_fields = ('args', 'data')
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(RequestAdmin, self).formfield_for_dbfield(db_field, **kwargs)
