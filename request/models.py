@@ -65,8 +65,13 @@ class Request(models.Model):
         self.is_secure = request.is_secure()
         self.is_ajax = request.is_ajax()
 
+        if request.META.get('CONTENT_TYPE') == "application/json":
+            data = request.body.decode("utf-8").replace("\\n", "\n")
+        else:
+            data = request.POST.dict()
+
         self.args = str(request.GET.dict())[:1023]
-        self.data = str(request.POST.dict())[:1023]
+        self.data = str(data)[:1023]
         self.request_id = request.META.get('HTTP_X_REQUEST_ID', '')
 
         # User infomation
