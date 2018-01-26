@@ -77,7 +77,7 @@ class Request(models.Model):
         self.request_id = request.META.get('HTTP_X_REQUEST_ID', '')
 
         # User infomation
-        self.ip = request.META.get('REMOTE_ADDR', '')
+        self.ip = request.META.get('REMOTE_ADDR', 'Unknown')
         self.referer = request.META.get('HTTP_REFERER', '')[:255]
         self.user_agent = request.META.get('HTTP_USER_AGENT', '')[:255]
         self.language = request.META.get('HTTP_ACCEPT_LANGUAGE', '')[:255]
